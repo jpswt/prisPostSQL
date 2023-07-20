@@ -1,6 +1,6 @@
 export const typeDefs = `#graphql
  type Query {
-    posts:[Post!]!
+    hello: String
  }
 
  type Mutation {
