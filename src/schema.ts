@@ -1,10 +1,18 @@
 export const typeDefs = `#graphql
  type Query {
+    personal: User
     posts:[Post!]!
+    profile(userId: ID!): Profile
  }
 
  type Mutation {
-   postCreate(title: String!, content:String!): PostPayload!
+   postCreate(post: PostInput!): PostPayload!
+   postUpdate(postId: ID!, post:PostInput): PostPayload!
+   postDelete(postId:ID!): PostPayload!
+   postPublish(postId:ID!):PostPayload
+   postUnpublish(postId:ID!):PostPayload
+   signup(credentials:AuthInput! name:String!, bio:String!): AuthPayload!
+   signin(credentials: AuthInput!):AuthPayload!
  }
 
  type Post {
@@ -20,7 +28,7 @@ export const typeDefs = `#graphql
    id:ID!
    name:String!
    email:String!
-   profile:Profile 
+  #  profile:Profile 
    posts:[Post!]!
  }
 
@@ -38,5 +46,19 @@ export const typeDefs = `#graphql
    userErrors:[UserError!]!
    post:Post
  }
+
+ type AuthPayload {
+  userErrors:[UserError!]!
+  token:String
+ }
   
+  input PostInput {
+    title:String
+    content:String
+  }
+
+  input AuthInput{
+    email:String
+    password:String
+  }
 `;
