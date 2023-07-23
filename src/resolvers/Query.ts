@@ -23,11 +23,37 @@ export const Query = {
 			},
 		});
 	},
-	profile: (_: any, { userId }: { userId: string }, { prisma }: Context) => {
-		return prisma.profile.findUnique({
+	// profile: (
+	// 	_: any,
+	// 	{ userId }: { userId: string },
+	// 	{ prisma, userInfo }: Context
+	// ) => {
+
+	// 	return prisma.profile.findUnique({
+	// 		where: {
+	// 			userId: Number(userId),
+	// 		},
+	// 	});
+	// },
+	profile: async (
+		_: any,
+		{ userId }: { userId: string },
+		{ prisma, userInfo }: Context
+	) => {
+		// check userId is the current authenticated user(REACT)
+		const isMyProfile = Number(userId) === userInfo?.userId;
+
+		const profile = await prisma.profile.findUnique({
 			where: {
 				userId: Number(userId),
 			},
 		});
+
+		if (!profile) return null;
+
+		return {
+			...profile,
+			isMyProfile,
+		};
 	},
 };

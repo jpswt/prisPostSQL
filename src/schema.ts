@@ -35,6 +35,8 @@ export const typeDefs = `#graphql
  type Profile {
    id:ID!
    bio:String!
+   #add this to determine if this is authenticated user profile(REACT)
+   isMyProfile:Boolean!
    user:User!
  }
 
